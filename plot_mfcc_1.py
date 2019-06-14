@@ -2,6 +2,12 @@ import numpy
 import scipy.io.wavfile
 from scipy.fftpack import dct
 import matplotlib.pyplot as plot
+import tensorflow as tf
+import keras
+import librosa
+import sklearn
+
+#%matplotlib inline
 
 length_seconds = 10 * 60
 pre_emphasis = 0.97
@@ -11,9 +17,9 @@ NFFT = 512
 nfilt = 40
 num_ceps = 12
 cep_lifter = 22
-count_files = 2
+count_files = 1
 
-for i in range(1, count_files + 1):
+for i in [4,12]:
     filename = 'vid' + str(i) + '.wav'
     sample_rate, signal = scipy.io.wavfile.read(filename)  # File assumed to be in the same directory
     # signal = signal[0:int(length_seconds * sample_rate)]  # Keep the first 60 seconds
@@ -73,11 +79,11 @@ for i in range(1, count_files + 1):
 
     plot.subplot(312)
     filter_banks -= (numpy.mean(filter_banks,axis=0) + 1e-8)
-    plot.imshow(fivi lter_banks.T, cmap=plot.cm.jet, aspect='auto')
+    plot.imshow(filter_banks.T, cmap=plot.cm.jet, aspect='auto')
     # plot.xticks(numpy.arange(0, (filter_banks.T).shape[1], int((filter_banks.T).shape[1] / 6)), ['0s', '0.5s', '1s', '1.5s','2.5s','3s','3.5'])
     ax = plot.gca()
     ax.invert_yaxis()
-    plot.title('the Normalized Filter banks spectrum image')
+    plot.title('the Normalized Filter banks spectrum image'+ str(i))
     plot.show()
     print('Filter banks shape: ' + str(filter_banks.shape))
 
@@ -94,6 +100,8 @@ for i in range(1, count_files + 1):
     # plot.xticks(numpy.arange(0, (mfcc.T).shape[1], int((mfcc.T).shape[1] / 6)), ['0s', '0.5s', '1s', '1.5s','2.5s','3s','3.5'])
     ax = plot.gca()
     ax.invert_yaxis()
-    plot.title('the Normalized MFCC spectrum image')
+    plot.title('the Normalized MFCC spectrum image' + str(i))
     plot.show()
     print('MFCCs shape: ' + str(mfcc.shape))
+
+
